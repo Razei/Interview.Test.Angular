@@ -1,6 +1,6 @@
-import { Diploma } from './Diploma';
-import { Requirement } from './Requirement';
-import { Student } from './Student';
+import { Diploma } from '../models/diploma.interface';
+import { Requirement } from '../models/requirement.interface';
+import { Student } from '../models/student.model';
 
 export class Repository {
 

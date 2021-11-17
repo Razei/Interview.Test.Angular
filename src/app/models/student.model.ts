@@ -1,5 +1,5 @@
-import { Course } from "./Course";
-import { STANDING } from "./STANDING";
+import { Course } from "./course.interface";
+import { STANDING } from "./standing.enum";
 
 export class Student
 {

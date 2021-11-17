@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
-import { Diploma } from './Diploma';
-import { Repository } from './repository';
-import { STANDING } from './STANDING';
-import { Student } from './Student';
+import { Diploma } from './models/diploma.interface';
+import { Repository } from './data/repository';
+import { STANDING } from './models/standing.enum';
+import { Student } from './models/student.model';
 
 @Component({
   selector: 'app-root',
