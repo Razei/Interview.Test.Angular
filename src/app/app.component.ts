@@ -13,7 +13,7 @@ import { Student } from './Student';
 export class AppComponent {
   private repository: Repository;
 
-  title = 'GraduationTracker';
+  title = 'Graduation Tracker';
 
   diploma: Diploma;
   students: Student[];
@@ -25,60 +25,61 @@ export class AppComponent {
     this.students = this.repository.GetStudents();
   }
 
-  hasGraduated(diploma: Diploma, student: Student): [boolean, number]
-  {
-      var credits = 0;
-      var average = 0;
+  hasGraduated(diploma: Diploma, student: Student): [boolean, number] {
+    let average = this.getAverage(diploma, student);
 
-      for(let i = 0; i < diploma.Requirements.length; i++)
-      {
-          for(let j = 0; j < student.Courses.length; j++)
-          {
-              var requirement = this.repository.GetRequirement(diploma.Requirements[i]);
+    average = average / student.Courses.length;
 
-              if (requirement) {
-                for (let k = 0; k < requirement.Courses.length; k++)
-                {
-                    if (requirement.Courses[k] == student.Courses[j].Id)
-                    {
-                        average += student.Courses[j].Mark;
-                        if (student.Courses[j].Mark > requirement.MinimumMark)
-                        {
-                            credits += requirement.Credits;
-                        }
-                    }
-                }
-              }
+    var standing = STANDING.None;
 
-          }
-      }
+    if (average < 50)
+        standing = STANDING.Remedial;
+    else if (average < 80)
+        standing = STANDING.Average;
+    else if (average < 95)
+        standing = STANDING.MagnaCumLaude;
+    else
+        standing = STANDING.SumaCumLaude;
 
-      average = average / student.Courses.length;
+    switch (standing)
+    {
+        case STANDING.Remedial:
+            return [false, standing];
+        case STANDING.Average:
+            return [true, standing];
+        case STANDING.SumaCumLaude:
+            return [true, standing];
+        case STANDING.MagnaCumLaude:
+            return [true, standing];
 
-      var standing = STANDING.None;
+        default:
+            return [false, standing];
+    }
+  }
 
-      if (average < 50)
-          standing = STANDING.Remedial;
-      else if (average < 80)
-          standing = STANDING.Average;
-      else if (average < 95)
-          standing = STANDING.MagnaCumLaude;
-      else
-          standing = STANDING.SumaCumLaude;
+  /**
+   * Get the average for each course if the course is part of the diploma requirements.
+   * @param diploma Current diploma
+   * @param student Current student
+   * @return the average as a number.
+   */
+  getAverage(diploma: Diploma, student: Student): number {
+    let average = 0;
 
-      switch (standing)
-      {
-          case STANDING.Remedial:
-              return [false, standing];
-          case STANDING.Average:
-              return [true, standing];
-          case STANDING.SumaCumLaude:
-              return [true, standing];
-          case STANDING.MagnaCumLaude:
-              return [true, standing];
+    // loop over every requirement ID
+    diploma.Requirements.forEach(requirementId => {
+      const requirement = this.repository.GetRequirement(requirementId);
 
-          default:
-              return [false, standing];
-      }
+      // check if the student has this course and add mark to average
+      requirement?.Courses.forEach(courseId => {
+        const course = student.Courses.find(course => course.Id == courseId);
+
+        if (course) {
+          average += course.Mark;
+        }
+      });
+    });
+
+    return average;
   }
 }
