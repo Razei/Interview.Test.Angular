@@ -30,31 +30,14 @@ export class AppComponent {
 
     average = average / student.Courses.length;
 
-    var standing = STANDING.None;
-
     if (average < 50)
-        standing = STANDING.Remedial;
+      return [false, STANDING.Remedial];
     else if (average < 80)
-        standing = STANDING.Average;
+      return [true, STANDING.Average];
     else if (average < 95)
-        standing = STANDING.MagnaCumLaude;
+      return [true, STANDING.MagnaCumLaude];
     else
-        standing = STANDING.SumaCumLaude;
-
-    switch (standing)
-    {
-        case STANDING.Remedial:
-            return [false, standing];
-        case STANDING.Average:
-            return [true, standing];
-        case STANDING.SumaCumLaude:
-            return [true, standing];
-        case STANDING.MagnaCumLaude:
-            return [true, standing];
-
-        default:
-            return [false, standing];
-    }
+      return [true, STANDING.SumaCumLaude];
   }
 
   /**
