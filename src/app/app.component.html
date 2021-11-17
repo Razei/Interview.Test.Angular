@@ -16,36 +16,15 @@
 
 <h2>Students</h2>
 
-<div class="student" *ngIf="students[0] as student">
-  <h3>Student {{ student.Id }}</h3>
-  <ul>
-    <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
-  </ul>
-  <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
-</div>
-
-<div class="student" *ngIf="students[1] as student">
-  <h3>Student {{ student.Id }}</h3>
-  <ul>
-    <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
-  </ul>
-  <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
-</div>
-
-<div class="student" *ngIf="students[2] as student">
-  <h3>Student {{ student.Id }}</h3>
-  <ul>
-    <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
-  </ul>
-  <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
-</div>
-
-<div class="student" *ngIf="students[3] as student">
-  <h3>Student {{ student.Id }}</h3>
-  <ul>
-    <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
-  </ul>
-  <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
-</div>
+<!-- Add ngFor to loop over each element instead of manually using array index -->
+<ng-container *ngFor="let student of students">
+  <div class="student" *ngIf="student">
+    <h3>Student {{ student.Id }}</h3>
+    <ul>
+      <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
+    </ul>
+    <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
+  </div>
+</ng-container>
 
 <router-outlet></router-outlet>
