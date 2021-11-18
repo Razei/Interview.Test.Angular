@@ -4,6 +4,7 @@ import { Diploma } from './models/diploma.interface';
 import { Repository } from './data/repository';
 import { STANDING } from './models/standing.enum';
 import { Student } from './models/student.model';
+import { StudentRepository } from './data/student-repository.service';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +19,13 @@ export class AppComponent {
   diploma: Diploma;
   students: Student[];
 
-  constructor() {
+  constructor(
+    private studentRepository: StudentRepository
+  ) {
     this.repository = new Repository();
 
     this.diploma = this.repository.GetDiploma(1) || { Id: 0, Credits: 0, Requirements: [] };
-    this.students = this.repository.GetStudents();
+    this.students = this.studentRepository.students;
   }
 
   hasGraduated(diploma: Diploma, student: Student): [boolean, number] {
