@@ -23,7 +23,7 @@ export class AppComponent {
     private requirementsRepository: RequirementsRepositoryService,
     private diplomaRepository: DiplomasRepositoryService
   ) {
-    this.diploma = this.diplomaRepository.getDiploma(1) || { Id: 0, Credits: 0, Requirements: [] };
+    this.diploma = this.diplomaRepository.getDiploma(1) || { Id: 0, Credits: 0, Requirements: [] } as Diploma;
     this.students = this.studentRepository.students;
   }
 
@@ -42,13 +42,14 @@ export class AppComponent {
       return [true, STANDING.SumaCumLaude];
   }
 
+  // this could probably be a helper function or service if it is meant to be used in multiple places
   /**
    * Get the average for each course if the course is part of the diploma requirements.
    * @param diploma Current diploma
    * @param student Current student
    * @return the average as a number.
    */
-  getAverage(diploma: Diploma, student: Student): number {
+  private getAverage(diploma: Diploma, student: Student): number {
     let average = 0;
 
     // loop over every requirement ID
