@@ -12,29 +12,28 @@ export class HasGraduatedPipe implements PipeTransform {
     private requirementsRepository: RequirementsRepositoryService,
   ) {}
 
-  transform(student: Student, diploma: Diploma): [boolean, number] {
-    let average = this.getAverage(diploma, student);
+  transform(student: Student, diploma: Diploma): [boolean, number, number] {
+    let { average, credits } = this.hasGraduated(diploma, student);
 
     average = average / student.Courses.length;
 
     if (average < 50)
-      return [false, STANDING.Remedial];
+      return [false, STANDING.Remedial, credits];
     else if (average < 80)
-      return [true, STANDING.Average];
+      return [true, STANDING.Average, credits];
     else if (average < 95)
-      return [true, STANDING.MagnaCumLaude];
+      return [true, STANDING.MagnaCumLaude, credits];
     else
-      return [true, STANDING.SumaCumLaude];
+      return [true, STANDING.SumaCumLaude, credits];
   }
 
   /**
-   * Get the average for each course if the course is part of the diploma requirements.
-   * @param diploma Current diploma
-   * @param student Current student
-   * @return the average as a number.
+   * Get the average mark and credits for each student.
+   * @param diploma Current diploma.
+   * @param student Current student.
    */
-  private getAverage(diploma: Diploma, student: Student): number {
-    let average = 0;
+  private hasGraduated(diploma: Diploma, student: Student): { average: number, credits: number } {
+    let result = { average: 0, credits: 0};
 
     // loop over every requirement ID
     diploma.Requirements.forEach(requirementId => {
@@ -45,11 +44,16 @@ export class HasGraduatedPipe implements PipeTransform {
         const course = student.Courses.find(course => course.Id == courseId);
 
         if (course) {
-          average += course.Mark;
+          result.average += course.Mark;
+
+          if (course.Mark > requirement.MinimumMark)
+          {
+            result.credits += requirement.Credits;
+          }
         }
       });
     });
 
-    return average;
+    return result;
   }
 }
