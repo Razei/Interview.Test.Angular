@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DiplomasRepositoryService } from './diplomas-repository.service';
 
-
 describe('DiplomasRepositoryService', () => {
   let service: DiplomasRepositoryService;
 

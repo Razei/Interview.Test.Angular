@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { RequirementsRepositoryService as RequirementsRepositoryService } from './requirements-repository.service';
+import { RequirementsRepositoryService } from './requirements-repository.service';
 
 describe('RequirementsRepositoryService', () => {
   let service: RequirementsRepositoryService;
