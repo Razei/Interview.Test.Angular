@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DiplomasRepository } from './data/diplomas-repository.service';
 import { RequirementsRepository } from './data/requirements-repository.service';
 import { StudentRepository } from './data/student-repository.service';
 
@@ -17,6 +18,7 @@ import { StudentRepository } from './data/student-repository.service';
   providers: [
     StudentRepository,
     RequirementsRepository,
+    DiplomasRepository
   ],
   bootstrap: [AppComponent]
 })

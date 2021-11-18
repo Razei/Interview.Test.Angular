@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Diploma } from './models/diploma.interface';
-import { Repository } from './data/repository';
+import { DiplomasRepository } from './data/diplomas-repository.service';
 import { STANDING } from './models/standing.enum';
 import { Student } from './models/student.model';
 import { StudentRepository } from './data/student-repository.service';
@@ -13,8 +13,6 @@ import { RequirementsRepository } from './data/requirements-repository.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  private repository: Repository;
-
   title = 'Graduation Tracker';
 
   diploma: Diploma;
@@ -22,11 +20,10 @@ export class AppComponent {
 
   constructor(
     private studentRepository: StudentRepository,
-    private requirementsRepository: RequirementsRepository
+    private requirementsRepository: RequirementsRepository,
+    private diplomaRepository: DiplomasRepository
   ) {
-    this.repository = new Repository();
-
-    this.diploma = this.repository.GetDiploma(1) || { Id: 0, Credits: 0, Requirements: [] };
+    this.diploma = this.diplomaRepository.getDiploma(1) || { Id: 0, Credits: 0, Requirements: [] };
     this.students = this.studentRepository.students;
   }
 
