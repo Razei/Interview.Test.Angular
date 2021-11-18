@@ -26,7 +26,7 @@
     <ul>
       <li *ngFor="let course of student.Courses">{{ course.Name }} - Mark: {{ course.Mark }}</li>
     </ul>
-    <div class="has-graduated">Has graduated? {{ hasGraduated(diploma, student) }}</div>
+    <div class="has-graduated">Has graduated? {{ student | hasGraduated: diploma }}</div>
   </div>
 </ng-container>
 

@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { RequirementsRepositoryService } from './data/requirements-repository/requirements-repository.service';
 import { StudentRepositoryService } from './data/student-repository/student-repository.service';
 import { DiplomasRepositoryService } from './data/diplomas-repository/diplomas-repository.service';
+import { HasGraduatedPipe } from './pipes/has-graduated.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HasGraduatedPipe
   ],
   imports: [
     BrowserModule,
