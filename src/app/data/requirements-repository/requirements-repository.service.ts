@@ -17,22 +17,11 @@ export class RequirementsRepositoryService {
     ];
   }
 
-  get requirements() {
+  get requirements(): Requirement[] {
     return cloneDeep(this._requirements);
   }
 
-  getRequirement(id: number): Requirement | null {
-    const requirements = this.requirements;
-    let requirement: Requirement | null = null;
-
-    for (let i = 0; i < requirements.length; i++)
-    {
-        if (id == requirements[i].Id)
-        {
-            requirement = requirements[i];
-        }
-    }
-
-    return requirement;
+  getRequirement(id: number): Requirement | undefined {
+    return this.requirements.find(requirement => requirement.Id === id);
   }
 }

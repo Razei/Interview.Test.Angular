@@ -41,18 +41,7 @@ export class StudentRepositoryService {
     return cloneDeep(this._students);
   }
 
-  getStudent(id: number): Student | null {
-    let students = this.students;
-    let student: Student | null = null;
-
-    for (let i = 0; i < students.length; i++)
-    {
-      if (id == students[i].Id)
-      {
-        student = students[i];
-      }
-    }
-
-    return student;
+  getStudent(id: number): Student | undefined {
+    return this.students.find(student => student.Id === id);
   }
 }

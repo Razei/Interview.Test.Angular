@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from 'lodash';
-import { Diploma } from '~data/models/diploma.interface';
+import { Diploma } from '../../models/diploma.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +18,11 @@ export class DiplomasRepositoryService {
     ];
   }
 
-  get diplomas(){
+  get diplomas(): Diploma[] {
     return cloneDeep(this._diplomas);
   }
 
-  getDiploma(id: number): Diploma | null {
-    const diplomas = this.diplomas;
-    let diploma: Diploma | null = null;
-
-    for (let i = 0; i < diplomas.length; i++)
-    {
-      if (id == diplomas[i].Id)
-      {
-          diploma = diplomas[i];
-      }
-    }
-
-    return diploma;
+  getDiploma(id: number): Diploma | undefined {
+    return this.diplomas.find(diploma => diploma.Id === id);
   }
 }
