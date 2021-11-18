@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from 'lodash';
-import { Student } from '../models/student.model';
+import { Student } from '../../models/student.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentRepository {
+export class StudentRepositoryService {
   _students: Student[];
 
   constructor() {

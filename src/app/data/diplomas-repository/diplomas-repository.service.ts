@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from 'lodash';
-import { Diploma } from '../models/diploma.interface';
+import { Diploma } from '~data/models/diploma.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DiplomasRepository {
+export class DiplomasRepositoryService {
   _diplomas: Diploma[];
 
   constructor() {

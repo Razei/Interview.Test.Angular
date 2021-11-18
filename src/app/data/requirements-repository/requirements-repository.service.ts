@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from 'lodash';
-import { Requirement } from '../models/requirement.interface';
+import { Requirement } from '../../models/requirement.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RequirementsRepository {
+export class RequirementsRepositoryService {
   _requirements: Requirement[];
 
   constructor() {

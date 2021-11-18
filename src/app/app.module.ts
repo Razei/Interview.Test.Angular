@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DiplomasRepository } from './data/diplomas-repository.service';
-import { RequirementsRepository } from './data/requirements-repository.service';
-import { StudentRepository } from './data/student-repository.service';
+import { RequirementsRepositoryService } from './data/requirements-repository/requirements-repository.service';
+import { StudentRepositoryService } from './data/student-repository/student-repository.service';
+import { DiplomasRepositoryService } from './data/diplomas-repository/diplomas-repository.service';
 
 @NgModule({
   declarations: [
@@ -16,9 +16,9 @@ import { StudentRepository } from './data/student-repository.service';
     AppRoutingModule
   ],
   providers: [
-    StudentRepository,
-    RequirementsRepository,
-    DiplomasRepository
+    StudentRepositoryService,
+    RequirementsRepositoryService,
+    DiplomasRepositoryService
   ],
   bootstrap: [AppComponent]
 })

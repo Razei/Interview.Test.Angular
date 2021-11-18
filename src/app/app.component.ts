@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 import { Diploma } from './models/diploma.interface';
-import { DiplomasRepository } from './data/diplomas-repository.service';
+import { DiplomasRepositoryService } from './data/diplomas-repository/diplomas-repository.service';
 import { STANDING } from './models/standing.enum';
 import { Student } from './models/student.model';
-import { StudentRepository } from './data/student-repository.service';
-import { RequirementsRepository } from './data/requirements-repository.service';
+import { RequirementsRepositoryService } from './data/requirements-repository/requirements-repository.service';
+import { StudentRepositoryService } from './data/student-repository/student-repository.service';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +19,9 @@ export class AppComponent {
   students: Student[];
 
   constructor(
-    private studentRepository: StudentRepository,
-    private requirementsRepository: RequirementsRepository,
-    private diplomaRepository: DiplomasRepository
+    private studentRepository: StudentRepositoryService,
+    private requirementsRepository: RequirementsRepositoryService,
+    private diplomaRepository: DiplomasRepositoryService
   ) {
     this.diploma = this.diplomaRepository.getDiploma(1) || { Id: 0, Credits: 0, Requirements: [] };
     this.students = this.studentRepository.students;
