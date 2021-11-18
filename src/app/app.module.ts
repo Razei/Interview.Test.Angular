@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { RequirementsRepository } from './data/requirements-repository.service';
 import { StudentRepository } from './data/student-repository.service';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { StudentRepository } from './data/student-repository.service';
     AppRoutingModule
   ],
   providers: [
-    StudentRepository
+    StudentRepository,
+    RequirementsRepository,
   ],
   bootstrap: [AppComponent]
 })

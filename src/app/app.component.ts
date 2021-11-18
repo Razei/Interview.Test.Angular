@@ -5,6 +5,7 @@ import { Repository } from './data/repository';
 import { STANDING } from './models/standing.enum';
 import { Student } from './models/student.model';
 import { StudentRepository } from './data/student-repository.service';
+import { RequirementsRepository } from './data/requirements-repository.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent {
   students: Student[];
 
   constructor(
-    private studentRepository: StudentRepository
+    private studentRepository: StudentRepository,
+    private requirementsRepository: RequirementsRepository
   ) {
     this.repository = new Repository();
 
@@ -54,7 +56,7 @@ export class AppComponent {
 
     // loop over every requirement ID
     diploma.Requirements.forEach(requirementId => {
-      const requirement = this.repository.GetRequirement(requirementId);
+      const requirement = this.requirementsRepository.getRequirement(requirementId);
 
       // check if the student has this course and add mark to average
       requirement?.Courses.forEach(courseId => {
