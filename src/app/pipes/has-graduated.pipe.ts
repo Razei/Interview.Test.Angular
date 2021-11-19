@@ -17,7 +17,7 @@ export class HasGraduatedPipe implements PipeTransform {
 
     average = average / student.Courses.length;
 
-    if (average < 50)
+    if (isNaN(average) || (average < 50))
       return [false, STANDING.Remedial, credits];
     else if (average < 80)
       return [true, STANDING.Average, credits];

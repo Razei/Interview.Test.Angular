@@ -6,7 +6,7 @@ import { STANDING } from '../models/standing.enum';
 import { Student } from '../models/student.model';
 import { HasGraduatedPipe } from './has-graduated.pipe';
 
-describe('Pipe: HasGraduatede', () => {
+describe('Pipe: HasGraduated', () => {
   let pipe: HasGraduatedPipe;
 
   beforeEach(async() => {
@@ -21,32 +21,115 @@ describe('Pipe: HasGraduatede', () => {
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
+  describe('hasGraduated()', () => {
+    it('should have credits', () => {
+      const graduated: [boolean, STANDING, number][] = [];
 
-  it('should have credits', () => {
-    const graduated: [boolean, STANDING, number][] = [];
+      mockStudentsFactory().forEach(student => {
+        graduated.push(pipe.transform(student, mockDiplomaFactory()));
+      });
 
-    mockStudents.forEach(student => {
-      graduated.push(pipe.transform(student, mockDiploma));
+      // check for credits
+      graduated.forEach(graduate => {
+        expect(graduate[2]).toBeDefined();;
+      })
     });
 
-    // check for credits
-    graduated.forEach(graduate => {
-      expect(graduate[2]).toBeDefined();;
-    })
+    describe('switch case', () => {
+      it('should return [false, 4, 0] if student has no matched courses', () => {
+        const mockStudent = mockStudentsFactory()[0];
+
+        mockStudent.Courses = [];
+
+        const result = pipe.transform(mockStudent, mockDiplomaFactory());
+
+        expect(result[0]).toEqual(false);
+        expect(result[1]).toEqual(4);
+        expect(result[2]).toEqual(0);
+      });
+
+      it('should return [false, 4, 1] if student course.Mark > requirement.MinimumMark', () => {
+        const mockRepositorty = TestBed.inject(RequirementsRepositoryService) as typeof mockRequirementsRepositoryService;
+        const mockStudent = mockStudentsFactory()[0];
+        const mockDiploma = mockDiplomaFactory();
+        const mockRequirement = { Id: 100, Name: "Math", MinimumMark: 30, Courses: [1], Credits: 1 };
+
+        mockRepositorty.getRequirement = () => mockRequirement;
+        mockStudent.Courses = [{ Id: 1, Name: "Math", Mark: 40 },];
+        mockDiploma.Requirements = [100];
+
+        const result = pipe.transform(mockStudent, mockDiploma);
+
+        expect(result[0]).toEqual(false);
+        expect(result[1]).toEqual(4);
+        expect(result[2]).toEqual(1);
+      });
+
+      it('should return [true, 3, 0] if student (50 < average < 80)', () => {
+        const mockRepositorty = TestBed.inject(RequirementsRepositoryService) as typeof mockRequirementsRepositoryService;
+        const mockStudent = mockStudentsFactory()[0];
+        const mockDiploma = mockDiplomaFactory();
+        const mockRequirement = { Id: 100, Name: "Math", MinimumMark: 90, Courses: [1], Credits: 1 };
+
+        mockRepositorty.getRequirement = () => mockRequirement;
+        mockStudent.Courses = [{ Id: 1, Name: "Math", Mark: 79 },];
+        mockDiploma.Requirements = [100];
+
+        const result = pipe.transform(mockStudent, mockDiploma);
+
+        expect(result[0]).toEqual(true);
+        expect(result[1]).toEqual(3);
+        expect(result[2]).toEqual(0);
+      });
+
+      it('should return [true, 2, 0] if student (80 < average < 95)', () => {
+        const mockRepositorty = TestBed.inject(RequirementsRepositoryService) as typeof mockRequirementsRepositoryService;
+        const mockStudent = mockStudentsFactory()[0];
+        const mockDiploma = mockDiplomaFactory();
+        const mockRequirement = { Id: 100, Name: "Math", MinimumMark: 95, Courses: [1], Credits: 1 };
+
+        mockRepositorty.getRequirement = () => mockRequirement;
+        mockStudent.Courses = [{ Id: 1, Name: "Math", Mark: 90 },];
+        mockDiploma.Requirements = [100];
+
+        const result = pipe.transform(mockStudent, mockDiploma);
+
+        expect(result[0]).toEqual(true);
+        expect(result[1]).toEqual(2);
+        expect(result[2]).toEqual(0);
+      });
+
+      it('should return [true, 1, 0] if student average > 95', () => {
+        const mockRepositorty = TestBed.inject(RequirementsRepositoryService) as typeof mockRequirementsRepositoryService;
+        const mockStudent = mockStudentsFactory()[0];
+        const mockDiploma = mockDiplomaFactory();
+        const mockRequirement = { Id: 100, Name: "Math", MinimumMark: 100, Courses: [1], Credits: 1 };
+
+        mockRepositorty.getRequirement = () => mockRequirement;
+        mockStudent.Courses = [{ Id: 1, Name: "Math", Mark: 96 },];
+        mockDiploma.Requirements = [100];
+
+        const result = pipe.transform(mockStudent, mockDiploma);
+
+        expect(result[0]).toEqual(true);
+        expect(result[1]).toEqual(1);
+        expect(result[2]).toEqual(0);
+      });
+    });
   });
 });
 
 const mockRequirementsRepositoryService = {
-  getRequirement: (id: number) => mockRequirement.find(requirement => requirement.Id === id)
+  getRequirement: (id: number) => mockRequirementFactory().find(requirement => requirement.Id === id)
 };
 
-const mockDiploma: Diploma = {
+const mockDiplomaFactory = (): Diploma => ({
   Id: 1,
   Credits: 4,
   Requirements: [ 100, 102, 103, 104 ]
-};
+});
 
-const mockStudents: Student[] = [
+const mockStudentsFactory = (): Student[] => [
   new Student(1, [
     { Id: 1, Name: "Math", Mark: 95 },
     { Id: 2, Name: "Science", Mark: 95 },
@@ -73,7 +156,7 @@ const mockStudents: Student[] = [
   ])
 ];
 
-const mockRequirement: Requirement[] = [
+const mockRequirementFactory = (): Requirement[] => [
   { Id: 100, Name: "Math", MinimumMark: 50, Courses: [1], Credits: 1 },
   { Id: 102, Name: "Science", MinimumMark: 50, Courses: [2], Credits: 1 },
   { Id: 103, Name: "Literature", MinimumMark :50, Courses: [3], Credits: 1},
