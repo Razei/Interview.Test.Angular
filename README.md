@@ -9,12 +9,26 @@ You should
 
 
 ### Complete the following - to the best of your ability 
-- [ ] src\app\app.component.html -  how could we organize the html better?
-- [ ] src\app\app.component.scss - how can we make this more re-usable? 
-- [ ] src\app\app.component.ts - what would happen if hasGraduated ran more then once? Is there a way to centralize this method?
-- [ ] src\app\app.component.ts - there is a code smell here, could we improve the readability of hasGraduated? Which SOLID principle could we apply here? Give it a try and implement
-- [ ] src\app\app.component.spec.ts - `it('should have credits` unit test should have at least 1 graduate, can you fix the code to make the test pass? 
+- [x] src\app\app.component.html -  how could we organize the html better?
+  - Implemented *ngFor instead of hard coded array indexing
 
+- [x] src\app\app.component.scss - how can we make this more re-usable? 
+  - Originally I implemented variables as `$border-width`, `$border-style` etc to make the values re-usable, but then I realized they could be refactored since `.diploma` and `.student` seemed to have the same base styling. Any differences in colour for example, were done in a separate definition.
+
+- [x] src\app\app.component.ts - what would happen if hasGraduated ran more then once? Is there a way to centralize this method?
+  - The `hasGraduated` function was being called in the HTML template. This could cause potentially unwanted function calls when Angular's change detection is triggered elsewhere on the page. 
+  - I added a pipe to solve this, however, if the design is meant to display the credits, boolean and average in separate places, this approach wouldn't work.
+  - One idea I had was to calculate if each student listed has graduated in the onInit lifecycle hook and add them directly to the student object as properties.
+
+- [x] src\app\app.component.ts - there is a code smell here, could we improve the readability of hasGraduated? Which SOLID principle could we apply here? Give it a try and implement
+  - Moved logic to pipe 
+    - Getting average logic moved into a new function for Single Responsibility Principle
+    - Refactored return logic to eliminate need for extra decision
+    - Create separate repository classes for Single Responsibility Principle
+    - Validate average to prevent NaN being returned for averages with value 0
+
+- [x] src\app\app.component.spec.ts - `it('should have credits` unit test should have at least 1 graduate, can you fix the code to make the test pass? 
+  - Fixed, and added more coverage for switch case.
 
 All joking aside, there is no need to finish this in the span of a lunch hour. 
 
