@@ -15,9 +15,7 @@ export class HasGraduatedPipe implements PipeTransform {
   transform(student: Student, diploma: Diploma): [boolean, number, number] {
     let { average, credits } = this.hasGraduated(diploma, student);
 
-    average = average / student.Courses.length;
-
-    if (isNaN(average) || (average < 50))
+    if (average < 50)
       return [false, STANDING.Remedial, credits];
     else if (average < 80)
       return [true, STANDING.Average, credits];
@@ -53,6 +51,10 @@ export class HasGraduatedPipe implements PipeTransform {
         }
       });
     });
+
+    if (result.average !== 0 && student.Courses.length !== 0){
+      result.average = result.average / student.Courses.length;
+    }
 
     return result;
   }
