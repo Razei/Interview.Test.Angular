@@ -1,6 +1,6 @@
 export interface Diploma
 {
-    Id: number;
-    Credits: number;
-    Requirements: number[];
+  Id: number;
+  Credits: number;
+  Requirements: number[];
 }

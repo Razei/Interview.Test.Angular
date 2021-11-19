@@ -1,8 +1,8 @@
 export enum STANDING
 {
-    None,
-    SumaCumLaude,
-    MagnaCumLaude,
-    Average,
-    Remedial
+  None,
+  SumaCumLaude,
+  MagnaCumLaude,
+  Average,
+  Remedial
 }
