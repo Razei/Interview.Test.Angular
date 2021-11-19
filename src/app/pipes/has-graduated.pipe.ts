@@ -52,6 +52,7 @@ export class HasGraduatedPipe implements PipeTransform {
       });
     });
 
+    // prevent divide by 0 causing NaN
     if (result.average !== 0 && student.Courses.length !== 0){
       result.average = result.average / student.Courses.length;
     }

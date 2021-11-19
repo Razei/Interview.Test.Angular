@@ -21,6 +21,7 @@ describe('Pipe: HasGraduated', () => {
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
+
   describe('hasGraduated()', () => {
     it('should have credits', () => {
       const graduated: [boolean, STANDING, number][] = [];
@@ -40,6 +41,7 @@ describe('Pipe: HasGraduated', () => {
       let mockDiploma: Diploma;
       let mockRequirement: Requirement;
 
+      // repetitive mutations moved to beforeEach
       beforeEach(() => {
         mockStudent = mockStudentsFactory()[0];
         mockStudent.Courses = [{ Id: 1, Name: "Math", Mark: 40 }];
@@ -118,6 +120,7 @@ const mockRequirementsRepositoryService = {
   getRequirement: (id: number) => mockRequirementFactory().find(requirement => requirement.Id === id)
 };
 
+// factory pattern to prevent mock objects being mutated and affecting other specs
 const mockDiplomaFactory = (): Diploma => ({
   Id: 1,
   Credits: 4,
